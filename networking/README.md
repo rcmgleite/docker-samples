@@ -22,7 +22,7 @@ $ docker network inspect app
 
 5.  Run the sinatra application inside the 'app' network aswell
 ```
-docker run -p 4567 --net=app --name sinatra-app -t -i sinatra bash
+docker run -p 4567 --net=app --name sinatra-app -it sinatra bash
 ```
 This last command will start the sinatra app and open a terminal session so you
 can run some other commands.
@@ -41,9 +41,9 @@ $ nslookup db
 
 8.  Now let's try to access our sinatra server
 ```
-curl -i -H 'Accept: application/json' -d 'name=Foo&status=Bar' http://localhost:<port>/json
+$ curl -i -H 'Accept: application/json' -d 'name=Foo&status=Bar' http://localhost:<port>/json
 ```
 
 ```
-curl -i http://localhost:<port>/json
+$ curl -i http://localhost:<port>/json
 ```

@@ -5,7 +5,7 @@ RUN apt-get update -yqq && \
 
 RUN gem install --no-rdoc --no-ri sinatra json redis
 
-RUN mkdir -p /opt/webapp
+ADD webapp_redis /opt/webapp
 
 EXPOSE 4567
 
