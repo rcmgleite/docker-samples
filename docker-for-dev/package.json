@@ -1,0 +1,10 @@
+{
+  "name": "express-sample",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
