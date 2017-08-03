@@ -1,37 +1,49 @@
-# Networking
+# Docker networking
 
-1.  Build
+1.  Create a new network
 ```
-$ docker build -t nodejs-sample .
-```
-
-2.  Running without publishing any ports
-```
-$ docker run nodejs-sample
-```
-By running this container like this, we wont be able to access the webserver from outside the container ='(
-
-3.  Fixing the problem
-```
-$ docker run -p 30000 nodejs-sample
-```
-Trying it out now will again result in sadness and shame. By using -p to publish port 30000, although the port 30000 inside the container is published, 
-it's mapped to another port on host.
-
-4.  Finding out the correct port
-```
-$ docker port <container_id>
-```
-:)
-
-5.  What if you really wanted to use port 30000 on yout host machine?
-```
-$ docker run -p 30000:30000 nodejs-sample
+$ docker network create app
 ```
 
-6.  We could also get all container network information using
+2.  Inspect the newly created network
 ```
-$ docker inspect <container_id>
+$ docker network inspect app
 ```
 
-7.  TODO - create more complex examples
+3.  Run docker inside that network
+```
+$ docker run -d --net=app --name db sinatra-redis
+```
+
+4.  Inspect the network again with
+```
+$ docker network inspect app
+```
+
+5.  Run the sinatra application inside the 'app' network aswell
+```
+docker run -p 4567 --net=app --name sinatra-app -t -i sinatra bash
+```
+This last command will start the sinatra app and open a terminal session so you
+can run some other commands.
+
+
+Now, inside the container:
+6.  Install some network helpers with:
+```
+$ apt-get install -y dnsutils iputils-ping
+```
+
+7.  Find the ip address of the redis container inside the app netowork with:
+```
+$ nslookup db
+```
+
+8.  Now let's try to access our sinatra server
+```
+curl -i -H 'Accept: application/json' -d 'name=Foo&status=Bar' http://localhost:<port>/json
+```
+
+```
+curl -i http://localhost:<port>/json
+```
